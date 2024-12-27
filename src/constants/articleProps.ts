@@ -177,11 +177,3 @@ export const defaultArticleState = {
 };
 
 export type ArticleStateType = typeof defaultArticleState;
-
-export const formTitle = {
-	fontFamilyOptionTitle: 'шрифт',
-	fontColorTitle: 'Цвет шрифта',
-	backgroundColorTitle: 'Цвет фона',
-	contentWidthTitle: 'Ширина контента',
-	fontSizeOptionTitle: 'рАЗМЕР шрифта',
-};
