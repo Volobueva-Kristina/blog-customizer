@@ -42,17 +42,19 @@ export const ArticleParamsForm = ({
 	const [settingValue, setValue] = useState<ArticleStateType>(initialStyles);
 
 	useEffect(() => {
-		const handleClick = (event: MouseEvent) => {
+		const handleOutsideClickClose = (event: MouseEvent) => {
 			const { target } = event;
 			if (target instanceof Node && !asideRef.current?.contains(target)) {
 				isOpen && close();
 			}
 		};
 
-		window.addEventListener('mousedown', handleClick);
+		if (isOpen) {
+			window.addEventListener('mousedown', handleOutsideClickClose);
+		}
 
 		return () => {
-			window.removeEventListener('mousedown', handleClick);
+			window.removeEventListener('mousedown', handleOutsideClickClose);
 		};
 	}, [close, isOpen]);
 
@@ -62,15 +64,12 @@ export const ArticleParamsForm = ({
 		[]
 	);
 
-	const formSubmit = (e: SyntheticEvent) => {
+	const handleFormSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-	};
-
-	const applyStyle = () => {
 		newStyleSettings(settingValue);
 	};
 
-	const clearStyle = () => {
+	const handleClearStyle = () => {
 		setValue(defaultArticleState);
 		newStyleSettings(defaultArticleState);
 	};
@@ -83,7 +82,7 @@ export const ArticleParamsForm = ({
 				className={`${styles.container} ${
 					isOpen ? styles.container_open : ''
 				}`}>
-				<form className={styles.form} onSubmit={formSubmit}>
+				<form className={styles.form} onSubmit={handleFormSubmit}>
 					<fieldset className={styles.formContent}>
 						<Text as='h2' size={31} weight={800} uppercase>
 							Задайте параметры
@@ -126,14 +125,9 @@ export const ArticleParamsForm = ({
 							title='Сбросить'
 							htmlType='reset'
 							type='clear'
-							onClick={clearStyle}
+							onClick={handleClearStyle}
 						/>
-						<Button
-							title='Применить'
-							htmlType='submit'
-							type='apply'
-							onClick={applyStyle}
-						/>
+						<Button title='Применить' htmlType='submit' type='apply' />
 					</div>
 				</form>
 			</aside>
